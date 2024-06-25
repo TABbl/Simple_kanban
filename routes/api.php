@@ -19,23 +19,25 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-#todo добавить префиксы
+
 Route::controller(TicketController::class)
+    ->prefix('/tickets')
     ->group(function(){
-        Route::get('/tickets', 'index')->name('tickets.index');
-        Route::get('/tickets/{ticket}', 'show')->name('tickets.show');
-        Route::post('/tickets', 'store')->name('tickets.store');
-        Route::put('/tickets/{ticket}', 'update')->name('tickets.update');
-        Route::patch('/tickets/{ticket}', 'update')->name('tickets.update');
-        Route::delete('/tickets/{ticket}', 'destroy')->name('tickets.destroy');
+        Route::get('', 'index')->name('tickets.index');
+        Route::get('/{ticket}', 'show')->name('tickets.show');
+        Route::post('', 'store')->name('tickets.store');
+        Route::put('/{ticket}', 'update')->name('tickets.update');
+        Route::patch('/{ticket}', 'update')->name('tickets.update');
+        Route::delete('/{ticket}', 'destroy')->name('tickets.destroy');
 
     });
 
 Route::controller(UserTicketController::class)
+    ->prefix('tickets')
     ->group(function(){
-        Route::get('/tickets/{ticket}/show-mates', 'showMates')->name('ticket.show_mates');
-        Route::post('/tickets/{ticket}/add-mate', 'addMate')->name('tickets.add_mate');
-        Route::patch('/tickets/{ticket}/mate', 'updateRole')->name('tickets.update_role');
+        Route::get('/{ticket}/show-mates', 'showMates')->name('ticket.show_mates');
+        Route::post('/{ticket}/add-mate', 'addMate')->name('tickets.add_mate');
+        Route::patch('/{ticket}/mate', 'updateRole')->name('tickets.update_role');
         #todo возможно стоит заменить mate на mate_id
-        Route::delete('/tickets/{ticket}/mate', 'destroy')->name('user_tickets.destroy');
+        Route::delete('/{ticket}/mate', 'destroyMate')->name('tickets.destroy_mate');
     });

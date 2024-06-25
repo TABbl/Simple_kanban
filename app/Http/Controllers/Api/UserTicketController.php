@@ -52,7 +52,7 @@ class UserTicketController extends Controller
         ]);
     }
 
-    public function destroy(Request $request, Ticket $ticket){
+    public function destroyMate(Request $request, Ticket $ticket){
         #todo добавить валидацию
         #удалять может только creator
         UserTicket::where('user_id', $request->integer('user_id'))
