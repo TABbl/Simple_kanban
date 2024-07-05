@@ -11,6 +11,10 @@ use Illuminate\Http\Request;
 
 class UserTicketController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth:sanctum')->only(['showMates', 'addMate', 'updateRole', 'destroyMate']);
+    }
+
     public function showMates(Ticket $ticket){
         #todo добавить обработку 404
         #todo только пользователи тикета могут видеть инф-ю о тикете
@@ -26,7 +30,7 @@ class UserTicketController extends Controller
     public function addMate(Request $request, Ticket $ticket){
         #todo добавить обработку ошибок (или возможно можно сделать для этого валидацию)
         #todo изменить когда сделаю авторизацию
-        auth()->login(User::first());
+        //auth()->login(User::first());
         #todo переписать эту страшилку
         $role = UserTicket::where('user_id', auth()->user()->id)->where('ticket_id', $ticket->id)->first('role');
         $role = json_decode($role, true);

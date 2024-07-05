@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\TicketController;
 use App\Http\Controllers\Api\UserTicketController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,7 +21,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::controller(TicketController::class)
+Route::apiResource('tickets', TicketController::class);
+
+/*Route::controller(TicketController::class)
     ->prefix('/tickets')
     ->group(function(){
         Route::get('', 'index')->name('tickets.index');
@@ -31,6 +34,7 @@ Route::controller(TicketController::class)
         Route::delete('/{ticket}', 'destroy')->name('tickets.destroy');
 
     });
+*/
 
 Route::controller(UserTicketController::class)
     ->prefix('tickets')
@@ -41,3 +45,7 @@ Route::controller(UserTicketController::class)
         #todo возможно стоит заменить mate на mate_id
         Route::delete('/{ticket}/mate', 'destroyMate')->name('tickets.destroy_mate');
     });
+
+Route::controller(UserController::class)->group(function(){
+    Route::post('login', 'login')->name('login');
+});
